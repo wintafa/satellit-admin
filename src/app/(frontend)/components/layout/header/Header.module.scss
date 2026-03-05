@@ -1,0 +1,427 @@
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 3px 0; // ✅ Фиксированный padding по вертикали
+  min-height: 115px;
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  display: flex;
+  align-items: center;
+
+  &.scrolled {
+    padding: 0; // ✅ Вертикальный padding меняется, горизонтальный — нет
+    min-height: 80px;
+    background: rgba(20, 20, 20, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  // Адаптив
+  @media (max-width: 992px) {
+    // padding: 15px 20px;
+    min-height: 80px;
+    align-items: center; 
+    
+    &.scrolled {
+      padding: 10px 0px; // ✅ Горизонтальный padding остаётся 20px
+      min-height: 70px;
+    }
+  }
+}
+
+.inner {
+  width: 100%;
+  max-width: 1500px; // ✅ Ограничиваем ширину контента
+  margin: 0 auto;    // ✅ Центрируем
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;   // ✅ Фиксированный padding внутри контейнера
+  box-sizing: border-box;
+
+  @media (min-width: 1250px) {
+    max-width: 1200px;
+  }
+
+  @media (min-width: 1450px) {
+    max-width: 1320px;
+  }
+}
+.logoSide {
+  .logo {
+    display: flex;
+    align-items: center; // Центрирование логотипа и текста
+    gap: 15px;
+    text-decoration: none;
+    z-index: 1001;
+    // Убедимся, что логотип не сжимается
+    flex-shrink: 0; 
+    
+    .clubName {
+      font-family: "BN Bold", sans-serif;
+      font-size: 55px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #fff;
+      text-transform: uppercase;
+      line-height: 1;
+      margin: 0;
+      
+      @media (max-width: 1200px) {
+        font-size: 45px;
+      }
+      
+      @media (max-width: 992px) {
+        font-size: 32px;
+      }
+      
+      @media (max-width: 480px) {
+        font-size: 26px;
+      }
+    }
+    
+    img {
+      height: 90px;
+      width: auto;
+      display: block; // Убираем лишние отступы у картинки
+      @media (max-width: 992px) {
+        height: 60px;
+      }
+    }
+  }
+}
+
+.rightNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  
+  @media (max-width: 992px) {
+    display: none;
+  }
+}
+
+.nav {
+  display: flex;
+  gap: 30px;
+  align-items: center; // Центрирование ссылок
+
+  a {
+    color: #fff;
+    font-family: "WMFD";
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 400;
+    transition: opacity 0.2s;
+   
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center; // Центрирование кнопок
+  gap: 10px;
+  
+  @media (max-width: 992px) {
+    display: none;
+  }
+}
+
+.socialBtn {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-family: "WMFD", sans-serif;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  height: fit-content; // Чтобы кнопка не растягивалась
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+  }
+
+  img {
+    width: 30px;
+    height: 30px;
+    // filter: brightness(0) invert(1);
+    display: block;
+  }
+}
+.maxBtn {
+  img {
+    width: 25px;
+    height: 25px;
+  }
+}
+/* =========================================
+   BURGER & MOBILE MENU STYLES
+   ========================================= */
+
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center; // Центрирование линий внутри кнопки
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 2000;
+  position: relative;
+  padding: 10px; // Увеличил зону клика
+  flex-shrink: 0; // Чтобы бургер не сжимался
+  width: 40px; // Фиксированная ширина для стабильности
+  height: 40px; // Фиксированная высота для центрирования
+  
+  @media (max-width: 992px) {
+    display: flex;
+    margin-left: auto; // Прижимает бургер вправо
+  }
+
+  span {
+    width: 28px;
+    height: 3px; // Фиксированная высота линий
+    background: #ffffff;
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+    display: block;
+  }
+
+  &.burgerActive {
+    span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+    span:nth-child(2) {
+      opacity: 0;
+      width: 0;
+    }
+    span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+  }
+}
+
+.mobileMenuOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; /* Для мобильных браузеров */
+  
+  background: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+  
+  z-index: 1001;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  
+  &.mobileMenuOverlayActive {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* =========================================
+   МОБИЛЬНОЕ МЕНЮ
+   ========================================= */
+.mobileMenu {
+  box-sizing: border-box; /* Критично: учитывает padding в высоте */
+  
+  background: rgba(15, 15, 15, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  max-width: 100%; /* Защита от вылезания */
+  height: 100vh;
+  height: 100dvh; /* Динамическая высота для мобильных */
+  
+  padding: 100px 20px 40px;
+  z-index: 1002;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  /* Скролл если контент не помещается */
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  /* Анимация выезда */
+  transform: translateY(-100%);
+  transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+
+  &.mobileMenuActive {
+    transform: translateY(0);
+  }
+
+  /* Логотип и название */
+  .mobile_logo_container {
+    margin-bottom: 50px;
+    text-align: center;
+    flex-shrink: 0; /* Чтобы не сжимался */
+    
+    .clubName {
+      font-family: "BN Bold", sans-serif;
+      font-size: 40px;
+      color: #fff;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+  }
+
+  /* Навигация */
+  .nav_mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    flex-shrink: 0;
+
+    a {
+      font-family: "WMFD", sans-serif;
+      font-size: 28px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      text-transform: uppercase;
+      transition: color 0.3s, transform 0.3s;
+      text-align: center;
+      width: 100%;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+
+      &:hover {
+        color: #ff0000;
+        transform: translateX(10px);
+      }
+    }
+  }
+
+  /* Контакты (прижаты к низу) */
+  .mobileContacts {
+    margin-top: auto; /* Прижимает блок к низу */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    width: 100%;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+
+    .phone {
+      font-family: "BN Bold", sans-serif;
+      font-size: 24px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .socials {
+      display: flex;
+      gap: 20px;
+      
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 45px;
+        height: 45px;
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 50%;
+        transition: all 0.3s;
+        
+        &:hover {
+          background: #fff;
+          border-color: #fff;
+          img {
+            filter: none;
+          }
+        }
+      }
+
+      img {
+        width: 24px;
+        height: 24px;
+        filter: brightness(0) invert(1);
+        transition: filter 0.3s;
+      }
+    }
+  }
+}
+
+/* =========================================
+   АДАПТИВ ДЛЯ МАЛЕНЬКИХ ЭКРАНОВ
+   ========================================= */
+@media (max-height: 768px) {
+  .mobileMenu {
+    padding-top: 80px;
+    padding-bottom: 30px;
+    
+    .mobile_logo_container {
+      margin-bottom: 30px;
+      
+      .clubName {
+        font-size: 32px;
+      }
+    }
+    
+    .nav_mobile {
+      gap: 20px;
+      
+      a {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+@media (max-height: 640px) {
+  .mobileMenu {
+    padding-top: 60px;
+    padding-bottom: 20px;
+    
+    .nav_mobile a {
+      font-size: 20px;
+      padding: 8px 0;
+    }
+  }
+}

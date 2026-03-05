@@ -1,0 +1,62 @@
+# Printshop
+
+Веб-приложение для типографии на базе Next.js 15 и Payload CMS.
+
+## 🛠️ Технологии
+
+- **Next.js 15** - React фреймворк
+- **Payload CMS 3.72** - Headless CMS
+- **MongoDB** - База данных
+- **Docker** - Контейнеризация
+- **Nginx** - Reverse proxy
+
+## 🚀 Быстрый старт (разработка)
+
+### Требования
+
+- Node.js 20+
+- MongoDB (локально или Docker)
+
+### Установка
+
+```bash
+# Установка зависимостей
+npm install
+
+# Создание .env файла
+cp env.example .env
+# Отредактируйте .env и укажите DATABASE_URL и PAYLOAD_SECRET
+
+# Запуск в режиме разработки
+npm run dev
+```
+
+Приложение будет доступно на [http://localhost:3000](http://localhost:3000)
+
+Админ-панель Payload CMS: [http://localhost:3000/admin](http://localhost:3000/admin)
+
+## 📦 Развертывание на сервере
+
+Подробная инструкция по развертыванию находится в файле [DEPLOY.md](./DEPLOY.md)
+
+### Краткая инструкция:
+
+1. Установите Docker и Docker Compose на сервере
+2. Скопируйте проект на сервер
+3. Создайте `.env` файл на основе `env.example`
+4. Запустите: `docker-compose up -d --build`
+5. Настройте Nginx (см. `nginx.conf`)
+6. Настройте SSL сертификат
+
+## 📝 Скрипты
+
+- `npm run dev` - Запуск в режиме разработки
+- `npm run build` - Сборка для production
+- `npm run start` - Запуск production версии
+- `npm run lint` - Проверка кода линтером
+
+## 📚 Документация
+
+- [Инструкция по развертыванию](./DEPLOY.md)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Payload CMS Documentation](https://payloadcms.com/docs)

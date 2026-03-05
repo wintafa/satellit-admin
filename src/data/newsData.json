@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "title": "ПОБЕДА В ДЕРБИ! ОБЗОР МАТЧА",
+    "description": "Яркая победа нашей команды в принципиальном матче. Смотрите highlights и комментарии тренеров.",
+    "category": "Матчи",
+    "date": "15.11.2024",
+    "readTime": "5 мин",
+    "imageUrl": "/news/news-1.png",
+    "slug": "pobeda-v-derbi-obzor-matcha"
+  },
+  {
+    "id": 2,
+    "title": "НОВЫЙ ТРЕНЕР ПРИШЕЛ В КОМАНДУ",
+    "description": "Знакомимся с новым главным тренером. Интервью, планы на сезон и первые впечатления.",
+    "category": "Клуб",
+    "date": "12.11.2024",
+    "readTime": "3 мин",
+    "imageUrl": "/news/news-1.png",
+    "slug": "noviy-trener-prishel-v-komandu"
+  },
+  {
+    "id": 3,
+    "title": "ИНТЕРВЬЮ С КАПИТАНОМ КОМАНДЫ",
+    "description": "Эксклюзивное интервью с капитаном о подготовке к сезону, целях и ожиданиях от команды.",
+    "category": "Интервью",
+    "date": "10.11.2024",
+    "readTime": "7 мин",
+    "imageUrl": "/news/news-1.png",
+    "slug": "intervyu-s-kapitanom-komandy"
+  },
+  {
+    "id": 4,
+    "title": "ТРАНСФЕРНЫЕ НОВОСТИ КЛУБА",
+    "description": "Обзор всех трансферов этого окна. Кто пришел, кто ушел и какие позиции будем усиливать.",
+    "category": "Трансферы",
+    "date": "08.11.2024",
+    "readTime": "4 мин",
+    "imageUrl": "/news/news-1.png",
+    "slug": "transfernye-novosti-kluba"
+  },
+  {
+    "id": 5,
+    "title": "МОЛОДЕЖКА ВЫИГРАЛА ТУРНИР",
+    "description": "Наши молодые таланты показали отличный результат на молодежном турнире.",
+    "category": "Академия",
+    "date": "05.11.2024",
+    "readTime": "3 мин",
+    "imageUrl": "/news/news-1.png",
+    "slug": "molodezhka-vyigrala-turnir"
+  },
+  {
+    "id": 6,
+    "title": "РАСПИСАНИЕ МАТЧЕЙ НА ДЕКАБРЬ",
+    "description": "Полное расписание всех матчей команды в декабре. Не пропустите важные игры!",
+    "category": "Расписание",
+    "date": "01.11.2024",
+    "readTime": "2 мин",
+    "imageUrl": "/news/news-1.png",
+    "slug": "raspisanie-matchey-na-dekabr"
+  },
+  {
+    "id": 7,
+    "title": "БОЛЬШОЙ ОТЧЕТ О СЕЗОНЕ 2024",
+    "description": "Итоги сезона: статистика, лучшие моменты, награды и планы на следующий год.",
+    "category": "Отчеты",
+    "date": "28.10.2024",
+    "readTime": "10 мин",
+    "imageUrl": "/news/news-1.png",
+    "slug": "bolshoy-otchet-o-sezone-2024"
+  },
+  {
+    "id": 8,
+    "title": "ФАН-ЗОНА ОТКРЫВАЕТСЯ ЗАНОВО",
+    "description": "Обновленная фан-зона ждет болельщиков. Новые активности, мерч и встречи с игроками.",
+    "category": "Болельщикам",
+    "date": "25.10.2024",
+    "readTime": "4 мин",
+    "imageUrl": "/news/news-1.png",
+    "slug": "fan-zona-otkryvaetsya-zanovo"
+  }
+]

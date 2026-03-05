@@ -1,0 +1,75 @@
+// @import "tailwindcss";
+
+
+@font-face {
+  font-family: "BN Bold";
+  src: url("../../../fonts/BebasNeue-Bold.ttf");
+}
+@font-face {
+  font-family: "BN Regular";
+  src: url("../../../fonts/BebasNeue-Regular.ttf");
+}
+@font-face {
+  font-family: "BN Cyr";
+  src: url("../../../fonts/bebasneuecyrillic.ttf");
+}
+@font-face {
+  font-family: "BN Book";
+  src: url("../../../fonts/ofont.ru_Bebas\ Neue.ttf");
+}
+@font-face {
+   font-family: "WMFD";
+   src: url("../../../fonts/WixMadeforDisplay-VariableFont_wght.ttf");
+}
+
+
+
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     --background: #0a0a0a;
+//     --foreground: #ededed;
+//   }
+// }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  margin: 0px;
+  // font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.swiper-pagination-bullet {
+  background: #ccc;
+  opacity: 1;
+  width: 10px;
+  height: 10px;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background: #4a4a4a;
+  width: 24px;
+  border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+ 
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
+}

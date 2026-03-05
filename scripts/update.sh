@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Скрипт для обновления приложения на сервере
+
+set -e
+
+echo "🔄 Начало обновления Printshop..."
+
+# Проверка наличия .env файла
+if [ ! -f .env ]; then
+    echo "❌ Файл .env не найден!"
+    echo "📝 Убедитесь, что файл .env существует"
+    exit 1
+fi
+
+# Опционально: создание бэкапа перед обновлением
+read -p "💾 Создать бэкап MongoDB перед обновлением? (y/n): " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    if [ -f scripts/backup-mongo.sh ]; then
+        echo "💾 Создание бэкапа..."
+        ./scripts/backup-mongo.sh
+    else
+        echo "⚠️  Скрипт бэкапа не найден, пропускаем..."
+    fi
+fi
+
+# Остановка контейнеров
+echo "🛑 Остановка контейнеров..."
+docker-compose down
+
+# Обновление кода (если используется Git)
+if [ -d .git ]; then
+    echo "📥 Обновление кода из Git..."
+    git pull
+else
+    echo "ℹ️  Git репозиторий не найден, пропускаем git pull"
+    echo "📝 Убедитесь, что вы загрузили новые файлы вручную"
+fi
+
+# Пересборка и запуск
+echo "🔨 Пересборка образа приложения..."
+docker-compose build --no-cache printshop
+
+echo "🚀 Запуск контейнеров..."
+docker-compose up -d
+
+# Ожидание готовности
+echo "⏳ Ожидание готовности сервисов..."
+sleep 10
+
+# Проверка статуса
+echo "📊 Проверка статуса контейнеров..."
+docker-compose ps
+
+# Проверка health check
+echo "🏥 Проверка health check..."
+if curl -f http://localhost:3002/api/health > /dev/null 2>&1; then
+    echo "✅ Приложение работает!"
+else
+    echo "⚠️  Health check не прошел, проверьте логи:"
+    echo "   docker-compose logs -f printshop_app"
+fi
+
+echo "✅ Обновление завершено!"
+echo "🌐 Приложение доступно на http://localhost:3002"
+echo "📝 Проверьте логи: docker-compose logs -f"
+

@@ -1,0 +1,406 @@
+# 🚀 Инструкция по развертыванию Printshop на сервере
+
+## 📋 Требования
+
+- Сервер с Ubuntu/Debian (или другой Linux дистрибутив)
+- Docker и Docker Compose установлены
+- Nginx установлен (для reverse proxy)
+- Домен настроен и указывает на IP сервера
+
+## 🔧 Подготовка сервера
+
+### 1. Установка Docker и Docker Compose
+
+```bash
+# Обновление пакетов
+sudo apt-get update
+
+# Установка Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+# Установка Docker Compose
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+# Добавление пользователя в группу docker
+sudo usermod -aG docker $USER
+```
+
+### 2. Установка Nginx
+
+```bash
+sudo apt-get install -y nginx
+```
+
+## 📦 Развертывание проекта
+
+### 1. Клонирование/загрузка проекта на сервер
+
+```bash
+# Если используете Git
+git clone <your-repo-url> printshop
+cd printshop
+
+# Или загрузите файлы через SCP/SFTP
+```
+
+### 2. Создание файла .env
+
+Создайте файл `.env` в корне проекта:
+
+```bash
+cp env.example .env
+nano .env
+```
+
+Заполните переменные:
+
+```env
+DATABASE_URL=mongodb://mongo:27017/printshop
+PAYLOAD_SECRET=your-super-secret-key-here-minimum-32-characters-long
+PORT=3002
+NODE_ENV=production
+```
+
+**Важно:** Сгенерируйте безопасный `PAYLOAD_SECRET`:
+```bash
+openssl rand -base64 32
+```
+
+### 3. Настройка прав доступа для скриптов
+
+```bash
+chmod +x scripts/*.sh
+```
+
+### 4. Запуск приложения
+
+```bash
+# Развертывание
+./scripts/deploy.sh
+
+# Или вручную
+docker-compose up -d --build
+```
+
+### 5. Проверка работы
+
+```bash
+# Проверка статуса контейнеров
+docker-compose ps
+
+# Просмотр логов
+docker-compose logs -f
+
+# Проверка доступности
+curl http://localhost:3002
+```
+
+## 🌐 Настройка Nginx
+
+### 1. Копирование конфигурации
+
+```bash
+# Отредактируйте nginx.conf, заменив your-domain.com на ваш домен
+nano nginx.conf
+
+# Скопируйте конфигурацию в Nginx
+sudo cp nginx.conf /etc/nginx/sites-available/printshop
+sudo ln -s /etc/nginx/sites-available/printshop /etc/nginx/sites-enabled/
+
+# Удалите дефолтную конфигурацию (опционально)
+sudo rm /etc/nginx/sites-enabled/default
+```
+
+### 2. Проверка и перезапуск Nginx
+
+```bash
+# Проверка конфигурации
+sudo nginx -t
+
+# Перезапуск Nginx
+sudo systemctl restart nginx
+```
+
+### 3. Настройка SSL (обязательно для production!)
+
+```bash
+# Установка certbot
+sudo apt-get install -y certbot python3-certbot-nginx
+
+# Получение SSL сертификата
+sudo certbot --nginx -d your-domain.com -d www.your-domain.com
+
+# Или используйте скрипт
+./scripts/setup-ssl.sh your-domain.com
+```
+
+После получения сертификата:
+1. Отредактируйте `/etc/nginx/sites-available/printshop`
+2. Раскомментируйте блок с HTTPS (443 порт)
+3. Замените `your-domain.com` на ваш домен
+4. Перезапустите Nginx: `sudo systemctl restart nginx`
+
+## 💾 Бэкапы MongoDB
+
+### Создание бэкапа
+
+```bash
+./scripts/backup-mongo.sh
+```
+
+Бэкапы сохраняются в `./mongo-backup/backup_YYYYMMDD_HHMMSS/`
+
+### Восстановление из бэкапа
+
+```bash
+./scripts/restore-mongo.sh backup_20240101_120000
+```
+
+### Автоматические бэкапы (cron)
+
+Добавьте в crontab:
+
+```bash
+crontab -e
+```
+
+Добавьте строку для ежедневного бэкапа в 2:00:
+
+```
+0 2 * * * cd /path/to/printshop && ./scripts/backup-mongo.sh
+```
+
+## 🔄 Обновление приложения
+
+### ⚡ Быстрая пересборка на сервере (рекомендуется)
+
+После загрузки изменений на сервер выполните:
+
+```bash
+# 1. Перейдите в директорию проекта
+cd /path/to/printshop
+
+# 2. Обновите код (если используете Git)
+git pull
+
+# 3. Остановите контейнеры
+docker-compose down
+
+# 4. Пересоберите образ с новым кодом
+docker-compose build --no-cache printshop
+
+# 5. Запустите контейнеры
+docker-compose up -d
+
+# 6. Проверьте логи
+docker-compose logs -f printshop_app
+```
+
+**Или одной командой:**
+```bash
+cd /path/to/printshop && git pull && docker-compose down && docker-compose build --no-cache printshop && docker-compose up -d
+```
+
+### После загрузки новых изменений на сервер
+
+#### Вариант 1: Если используете Git
+
+```bash
+# Перейдите в директорию проекта
+cd /path/to/printshop
+
+# Получите последние изменения
+git pull origin main  # или master, или ваша ветка
+
+# Остановите контейнеры
+docker-compose down
+
+# Пересоберите образы с новым кодом
+docker-compose up -d --build
+
+# Проверьте логи
+docker-compose logs -f printshop_app
+```
+
+#### Вариант 2: Если загружаете файлы вручную (SCP/SFTP)
+
+```bash
+# Перейдите в директорию проекта
+cd /path/to/printshop
+
+# Остановите контейнеры
+docker-compose down
+
+# Загрузите новые файлы через SCP/SFTP
+# (выполните на локальной машине)
+# scp -r ./src ./next.config.ts ./package.json user@server:/path/to/printshop/
+
+# Пересоберите образы
+docker-compose up -d --build
+
+# Проверьте логи
+docker-compose logs -f printshop_app
+```
+
+#### Вариант 3: Быстрое обновление (без остановки, если изменения небольшие)
+
+```bash
+# Перейдите в директорию проекта
+cd /path/to/printshop
+
+# Обновите код (git pull или загрузка файлов)
+
+# Пересоберите только приложение (быстрее)
+docker-compose build printshop
+
+# Перезапустите контейнер приложения
+docker-compose up -d --force-recreate printshop
+
+# Проверьте логи
+docker-compose logs -f printshop_app
+```
+
+### ⚠️ Важные моменты при обновлении
+
+1. **Проверьте .env файл** — убедитесь, что переменные окружения не изменились:
+   ```bash
+   # Сравните с env.example
+   cat env.example
+   cat .env
+   ```
+
+2. **Сделайте бэкап перед обновлением** (рекомендуется):
+   ```bash
+   ./scripts/backup-mongo.sh
+   ```
+
+3. **Если обновляются зависимости** (package.json изменился):
+   ```bash
+   # Удалите старые образы и пересоберите с нуля
+   docker-compose down
+   docker-compose build --no-cache printshop
+   docker-compose up -d
+   ```
+
+4. **Проверьте работу после обновления**:
+   ```bash
+   # Проверьте статус контейнеров
+   docker-compose ps
+   
+   # Все должны быть "Up"
+   
+   # Проверьте доступность сайта
+   curl http://localhost:3002/api/health
+   
+   # Должен вернуть: {"status":"ok","timestamp":"..."}
+   ```
+
+### 🔧 Если что-то пошло не так
+
+```bash
+# Посмотрите логи ошибок
+docker-compose logs printshop_app | tail -50
+
+# Если нужно откатиться к предыдущей версии
+git checkout <previous-commit-hash>  # если используете Git
+# или восстановите файлы из бэкапа
+
+# Пересоберите
+docker-compose up -d --build
+
+# Если проблемы с базой данных
+docker-compose logs mongo | tail -50
+```
+
+## 📊 Мониторинг и логи
+
+```bash
+# Логи приложения
+docker-compose logs -f printshop
+
+# Логи MongoDB
+docker-compose logs -f mongo
+
+# Использование ресурсов
+docker stats
+
+# Статус контейнеров
+docker-compose ps
+```
+
+## 🛠️ Устранение неполадок
+
+### Приложение не запускается
+
+1. Проверьте логи: `docker-compose logs printshop`
+2. Проверьте .env файл
+3. Убедитесь, что порт 3002 свободен: `netstat -tulpn | grep 3002`
+
+### MongoDB не подключается
+
+1. Проверьте, что контейнер MongoDB запущен: `docker-compose ps`
+2. Проверьте логи: `docker-compose logs mongo`
+3. Проверьте DATABASE_URL в .env
+
+### Nginx не работает
+
+1. Проверьте конфигурацию: `sudo nginx -t`
+2. Проверьте логи: `sudo tail -f /var/log/nginx/error.log`
+3. Убедитесь, что приложение доступно на localhost:3002
+
+## 🔒 Безопасность (обязательно!)
+
+1. ✅ Настройте SSL/HTTPS (Let's Encrypt)
+2. ✅ Используйте сильный PAYLOAD_SECRET
+3. ✅ Настройте файрвол (UFW):
+   ```bash
+   sudo ufw allow 22/tcp    # SSH
+   sudo ufw allow 80/tcp    # HTTP
+   sudo ufw allow 443/tcp   # HTTPS
+   sudo ufw enable
+   ```
+4. ✅ Не открывайте порт 27017 наружу (MongoDB только локально)
+5. ✅ Регулярно обновляйте систему и Docker образы
+6. ✅ Настройте автоматические бэкапы
+
+## 📝 Полезные команды
+
+```bash
+# Остановка всех контейнеров
+docker-compose down
+
+# Остановка с удалением volumes (ОСТОРОЖНО!)
+docker-compose down -v
+
+# Перезапуск сервиса
+docker-compose restart printshop
+
+# Вход в контейнер
+docker exec -it printshop_app sh
+
+# Очистка неиспользуемых образов
+docker system prune -a
+```
+
+## 🎯 Чеклист развертывания
+
+- [ ] Docker и Docker Compose установлены
+- [ ] Nginx установлен и настроен
+- [ ] Файл .env создан и заполнен
+- [ ] Приложение запущено и работает
+- [ ] Nginx настроен как reverse proxy
+- [ ] SSL сертификат установлен
+- [ ] Домен настроен и работает
+- [ ] Бэкапы настроены
+- [ ] Файрвол настроен
+- [ ] Мониторинг настроен (опционально)
+
+## 📞 Поддержка
+
+При возникновении проблем проверьте логи и документацию:
+- Docker: https://docs.docker.com/
+- Next.js: https://nextjs.org/docs
+- Payload CMS: https://payloadcms.com/docs
+

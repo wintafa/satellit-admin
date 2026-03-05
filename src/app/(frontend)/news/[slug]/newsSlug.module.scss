@@ -1,0 +1,391 @@
+/* src/app/news/[slug]/newsSlug.module.scss */
+
+.newsSlugSection {
+  padding: 80px 0;
+  background: #ffffff; /* Белый фон */
+  // min-height: 100vh;
+  margin-top: 100px;
+}
+
+.article {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+  color: #1a1a1a; /* Темный текст */
+}
+
+// Хлебные крошки
+.breadcrumbs {
+  font-family: "WFMD";
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px;
+  font-size: 14px;
+  color: #888;
+}
+
+.breadcrumbLink {
+  font-family: "WMFD";
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    font-family: "WMFD" !important;
+    color: #4a4a4a;
+  }
+}
+
+.breadcrumbSeparator {
+  font-family: "WMFD";
+  color: #ccc;
+}
+
+.breadcrumbCurrent {
+  font-family: "WMFD";
+  color: #1a1a1a;
+}
+
+// Заголовок статьи
+.articleHeader {
+  margin-bottom: 40px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.category {
+  font-family: "WMFD";
+  background: #4a4a4a;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.date,
+.readTime {
+  font-family: "WMFD";
+  color: #666;
+  font-size: 14px;
+}
+
+.title {
+  font-family: "BN Bold", sans-serif;
+  font-size: clamp(28px, 5vw, 48px);
+  line-height: 1.2;
+  color: #1a1a1a;
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+}
+
+.excerpt {
+  font-family: "BN Regular", sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0 0 30px 0;
+}
+
+.author {
+  font-family: "WMFD";
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #666;
+  font-size: 14px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a4a4a, #4a4a4a);
+}
+
+// Главное изображение
+.featuredImage {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 40px;
+  // border: 1px solid #e0e0e0;
+}
+
+.featuredImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+// Контент статьи
+.articleContent {
+  font-family: "BN Regular", sans-serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+
+  p {
+    margin-bottom: 24px;
+    font-family: "WMFD";
+  }
+
+  h2 {
+    font-family: "BN Bold", sans-serif;
+    font-size: 28px;
+    color: #1a1a1a;
+    margin: 40px 0 20px 0;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-family: "BN Bold", sans-serif;
+    font-size: 22px;
+    color: #1a1a1a;
+    margin: 30px 0 15px 0;
+  }
+}
+
+// Футер статьи
+.articleFooter {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tags {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tagsLabel {
+  color: #888;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.tag {
+  background: #f5f5f5;
+  color: #555;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #4a4a4a;
+    color: #fff;
+    border-color: #4a4a4a;
+  }
+}
+
+.share {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shareLabel {
+  color: #888;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.shareBtn {
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #4a4a4a;
+    color: #fff;
+    border-color: #4a4a4a;
+  }
+}
+
+// Похожие новости
+.relatedSection {
+  max-width: 1200px;
+  margin: 80px auto 0;
+  padding: 0 20px;
+}
+
+.relatedTitle {
+  font-family: "BN Bold", sans-serif;
+  font-size: 32px;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  margin: 0 0 40px 0;
+  text-align: center;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.relatedCard {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: #1a1a1a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    border-color: #4a4a4a;
+  }
+}
+
+.relatedImage {
+  width: 100%;
+  padding-top: 60%;
+  position: relative;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.relatedImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+
+  .relatedCard:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.relatedContent {
+  padding: 20px;
+}
+
+.relatedCategory {
+  background: rgba(76, 175, 80, 0.1);
+  color:#4a4a4a;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.relatedTitleSmall {
+  font-family: "BN Bold", sans-serif;
+  font-size: 16px;
+  color: #1a1a1a;
+  margin: 12px 0 8px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.relatedDate {
+  color: #888;
+  font-size: 13px;
+}
+
+// Кнопка назад
+.backSection {
+  max-width: 900px;
+  margin: 60px auto 0;
+  padding: 0 20px;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  color: #333;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-family: "BN Regular", sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #4a4a4a;
+    border-color: #4a4a4a;
+    color: #fff;
+  }
+}
+
+// Адаптив
+@media (max-width: 768px) {
+  .newsSlugSection {
+    padding: 40px 0;
+  }
+
+  .article {
+    padding: 0 15px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .excerpt {
+    font-size: 16px;
+  }
+
+  .articleContent {
+    font-size: 16px;
+  }
+
+  .articleFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .meta {
+    gap: 15px;
+  }
+
+  .relatedGrid {
+    grid-template-columns: 1fr;
+  }
+}

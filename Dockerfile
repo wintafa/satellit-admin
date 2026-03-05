@@ -1,0 +1,63 @@
+# syntax=docker/dockerfile:1
+
+FROM node:20-alpine AS base
+
+# ─────────────────────────────────────────────────────────────
+# 👇 Установка зависимостей
+# ─────────────────────────────────────────────────────────────
+FROM base AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# ─────────────────────────────────────────────────────────────
+# 👇 Сборка приложения
+# ─────────────────────────────────────────────────────────────
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# 👇 Генерируем типы Payload (игнорируем ошибки, если нет БД)
+RUN npm run payload:generate-types || true
+
+# 👇 Собираем Next.js (создаёт .next/standalone)
+RUN npm run build
+
+# ─────────────────────────────────────────────────────────────
+# 👇 Production образ
+# ─────────────────────────────────────────────────────────────
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=3002
+ENV HOSTNAME="0.0.0.0"
+
+# 👇 Создаём пользователя для безопасности
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# 👇 Копируем основные файлы из builder
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# 👇 Payload: копируем конфиг (если он не попал в standalone автоматически)
+# Используем RUN + cp, чтобы игнорировать ошибку, если файл не найден
+RUN mkdir -p ./src && \
+    cp /app/src/payload.config.ts ./src/payload.config.ts 2>/dev/null || true
+
+# 👇 Копируем медиафайлы (если используешь локальное хранилище)
+RUN mkdir -p ./media && \
+    cp -r /app/media/* ./media/ 2>/dev/null || true
+
+# 👇 Если используешь public/uploads вместо media:
+# RUN mkdir -p ./public/uploads && \
+#     cp -r /app/public/uploads/* ./public/uploads/ 2>/dev/null || true
+
+USER nextjs
+
+EXPOSE 3002
+
+CMD ["node", "server.js"]
