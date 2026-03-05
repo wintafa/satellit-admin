@@ -147,6 +147,7 @@ export async function getTeamPlayers() {
     where: { isPublished: { equals: true } },
     sort: 'name', // Сортируем по имени
     depth: 1,     // Критично для получения полного объекта с фото
+    revalidate: 60, // 🔹 Кэш запроса на 60 секунд
   })
 
   // Форматируем данные и извлекаем URL для фото, если оно есть
@@ -177,6 +178,7 @@ export async function getGames(limit: number = 20) {
     sort: '-date', // Сначала новые матчи
     limit,
     depth: 1, // Подгружаем связанные медиа (логотипы)
+    revalidate: 60, // 🔹 Кэш запроса на 60 секунд
   })
   
   // 🔹 Хелпер для получения URL логотипа (универсальный)
@@ -230,6 +232,7 @@ export async function getLatestNews(limit: number = 6) {
     sort: '-createdAt', // Сортировка по дате создания (если date — текст)
     limit,
     depth: 1, // Подгружаем связанные медиа
+    revalidate: 60, // 🔹 Кэш запроса на 60 секунд
   })
   
   return docs.map((item) => {
@@ -274,6 +277,7 @@ export async function getAllNews(page: number = 1, limit: number = 8) {  // ← 
     page,
     limit,
     depth: 1,
+    revalidate: 60, // 🔹 Кэш запроса на 60 секунд
   })
   
   const getImageUrl = (img: any, fallback: string) => {
@@ -318,6 +322,7 @@ export async function getNewsBySlug(slug: string) {
       isPublished: { equals: true },
     },
     depth: 1,
+    revalidate: 60, // 🔹 Кэш запроса на 60 секунд
   })
   
   if (!docs[0]) return null
@@ -371,6 +376,7 @@ export async function getRelatedNews(category: string, currentSlug: string, limi
     sort: '-createdAt',
     limit,
     depth: 1,
+    revalidate: 60, // 🔹 Кэш запроса на 60 секунд
   })
   
   const getImageUrl = (img: any, fallback: string) => {
@@ -406,6 +412,7 @@ export async function getAllNewsSlugs() {
     collection: 'news',
     where: { isPublished: { equals: true } },
     select: { slug: true }, // Запрашиваем только slug для скорости
+    revalidate: 60, // 🔹 Кэш запроса на 60 секунд
   })
   
   return docs.map((doc) => ({ slug: doc.slug }))
@@ -419,6 +426,7 @@ export async function getHeroStreamUrl(): Promise<string> {
     const settings = await payload.findGlobal({
       slug: 'hero-settings',
       depth: 0,
+      revalidate: 60, // 🔹 Кэш запроса на 60 секунд
     })
     
     return settings.streamUrl || 'https://live.vkvideo.ru/app/embed/myp_'

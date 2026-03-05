@@ -1,11 +1,11 @@
 // src/components/hero/Hero.tsx
 import styles from "./Hero.module.scss";
 import { getHeroStreamUrl } from '@/lib/get-payload';
-
+export const revalidate = 60;
 export default async function Hero() {
   // 🔹 Получаем ссылку на трансляцию из Payload
   const streamUrl = await getHeroStreamUrl();
-
+  
   return (
     <section className={styles.hero}>
       <div className={styles.heroGrid}>
