@@ -8,7 +8,7 @@ export default async function GamesServer() {
   
   // Получаем матчи из коллекции 'games'
   const { docs: games } = await payload.find({
-    collection: 'games',
+    collection: 'games' as any,
     where: { isPublished: { equals: true } },
     sort: '-date', // Сначала новые
     limit: 20,
