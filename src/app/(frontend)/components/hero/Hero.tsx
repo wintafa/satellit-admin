@@ -1,16 +1,20 @@
 // src/components/hero/Hero.tsx
 import styles from "./Hero.module.scss";
 import { getHeroStreamUrl } from '@/lib/get-payload';
-export const revalidate = 60;
+
+// 🔹 Отключаем кэширование для этого компонента
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function Hero() {
-  // 🔹 Получаем ссылку на трансляцию из Payload
+  // 🔹 Получаем ссылку на трансляцию из Payload (всё, что нужно!)
   const streamUrl = await getHeroStreamUrl();
-  
+
   return (
     <section className={styles.hero}>
       <div className={styles.heroGrid}>
         
-        {/* Текст — статичный, как у тебя */}
+        {/* Текст — статичный */}
         <div className={styles.heroContent}>
           <h1 className={styles.title}>САТЕЛЛИТ</h1>
           <p className={styles.subtitle}>
@@ -29,6 +33,9 @@ export default async function Hero() {
               className={styles.videoFrame}
               title="VK Video Stream"
               loading="lazy"
+              // 🔹 Добавь эти атрибуты для работы видео:
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+              sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
             />
           </div>
         </div>

@@ -426,12 +426,12 @@ export async function getHeroStreamUrl(): Promise<string> {
     const settings = await payload.findGlobal({
       slug: 'hero-settings',
       depth: 0,
-      revalidate: 60, // 🔹 Кэш запроса на 60 секунд
+    revalidate: 0, // Не кэшировать глобал
     })
     
-    return settings.streamUrl || 'https://live.vkvideo.ru/app/embed/myp_'
+    return settings.streamUrl || 'https://live.vkvideo.ru/app/embed/mex1kanec'
   } catch {
     // Fallback если что-то пошло не так
-    return 'https://live.vkvideo.ru/app/embed/myp_'
+    return 'https://live.vkvideo.ru/app/embed/mex1kanec'
   }
 }
