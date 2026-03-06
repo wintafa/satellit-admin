@@ -157,6 +157,27 @@ export default buildConfig({
       ],
     },
   ],
+  globals: [
+    {
+      slug: 'hero-settings',  // ← Должно совпадать с тем, что в коде!
+      label: 'Настройки Hero',
+      access: {
+        read: () => true, // Публичный доступ
+      },
+      fields: [
+        {
+          name: 'streamUrl',
+          type: 'text',
+          required: true,
+          label: 'Ссылка на трансляцию',
+          defaultValue: 'https://live.vkvideo.ru/mex1kanec', // ← Теперь можно простой формат
+          admin: {
+            description: 'Вставь ссылку из кнопки "Поделиться" в ВК. Примеры:\n• https://live.vkvideo.ru/mex1kanec\n• https://vkvideo.ru/video-12345_45678\nСайт сам превратит её в правильный формат.',
+          },
+        },
+      ],
+    },
+  ],
 
   editor: lexicalEditor(),
 

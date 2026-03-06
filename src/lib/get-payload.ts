@@ -1,4 +1,5 @@
 // src/lib/get-payload.ts
+import { parseVkStreamUrl } from '@/lib/utils' // или из того же файла
 
 // Защита от импорта на клиенте — этот файл должен использоваться только на сервере
 if (typeof window !== 'undefined') {
@@ -419,19 +420,27 @@ export async function getAllNewsSlugs() {
 }
 
 
+
 export async function getHeroStreamUrl(): Promise<string> {
-  const payload = await getPayload()
+  const payload = await getPayload({ config })
   
   try {
     const settings = await payload.findGlobal({
       slug: 'hero-settings',
       depth: 0,
-    revalidate: 0, // Не кэшировать глобал
     })
     
-    return settings.streamUrl || 'https://live.vkvideo.ru/app/embed/mex1kanec'
-  } catch {
-    // Fallback если что-то пошло не так
+    const rawUrl = settings?.streamUrl || ''
+    
+    // 🔹 Конвертируем в правильный формат
+    return parseVkStreamUrl(rawUrl)
+    
+  } catch (error: any) {
+    if (error?.status === 404 || error?.message?.includes("can't be found")) {
+      console.warn('⚠️ Global "hero-settings" not found, using fallback')
+      return 'https://live.vkvideo.ru/app/embed/mex1kanec'
+    }
+    console.error('Error fetching hero stream URL:', error)
     return 'https://live.vkvideo.ru/app/embed/mex1kanec'
   }
 }

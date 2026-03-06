@@ -9,7 +9,8 @@ export const revalidate = 0
 export default async function Hero() {
   // 🔹 Получаем ссылку на трансляцию из Payload (всё, что нужно!)
   const streamUrl = await getHeroStreamUrl();
-
+  const cacheBuster = Date.now();
+  const finalUrl = `${streamUrl}${streamUrl.includes('?') ? '&' : '?'}_t=${cacheBuster}`;
   return (
     <section className={styles.hero}>
       <div className={styles.heroGrid}>
