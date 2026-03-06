@@ -3,7 +3,9 @@ import { getAllNews } from '@/lib/get-payload'
 import { serializePayloadData } from '@/lib/get-payload'
 import NewsList from './NewList'
 import styles from './newsCard.module.scss'
-
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const fetchCache = 'force-no-store'
 // 🔹 Это серверный компонент! (нет "use client")
 export default async function NewsPage({ searchParams }) {
   // 🔹 Получаем номер страницы из URL (?page=2)

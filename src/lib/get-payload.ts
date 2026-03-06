@@ -147,7 +147,7 @@ export async function getTeamPlayers() {
     where: { isPublished: { equals: true } },
     sort: 'name', // Сортируем по имени
     depth: 1,     // Критично для получения полного объекта с фото
-    revalidate: 60, // 🔹 Кэш запроса на 60 секунд
+    revalidate: 0 // 🔹 Кэш запроса на 60 секунд
   })
 
   // Форматируем данные и извлекаем URL для фото, если оно есть

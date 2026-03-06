@@ -13,3 +13,4 @@ export default async function TeamServer() {
     // 🔹 Сериализуем для безопасной передачи в клиентский компонент 
     const serializedPlayers = serializePayloadData(players) 
     return <TeamClient initialPlayers={serializedPlayers} /> }
+
