@@ -16,6 +16,10 @@ export default buildConfig({
     // 👤 Пользователи (для входа в админку)
     {
       slug: 'users',
+      labels: {
+        singular: 'Пользователь',
+        plural: 'Пользователи',
+      },
       auth: true,
       fields: [
         { name: 'name', type: 'text', required: true },
@@ -25,6 +29,10 @@ export default buildConfig({
     // 👥 Команда (игроки)
     {
       slug: 'team',
+      labels: {
+        singular: 'Игрок',
+        plural: 'Команда',  // ← В меню будет "Команда"
+      },
       admin: { useAsTitle: 'name' },
       fields: [
         { name: 'name', type: 'text', required: true, label: 'Имя' },
@@ -56,6 +64,10 @@ export default buildConfig({
     // 📰 Новости
     {
   slug: 'news',
+  labels: {
+        singular: 'Новость',
+        plural: 'Новости',
+      },
   admin: { useAsTitle: 'title' },
   fields: [
     { name: 'title', type: 'text', required: true, label: 'Заголовок' },
@@ -88,6 +100,10 @@ export default buildConfig({
     // 🎮 Игры
     {
   slug: 'games',
+  labels: {
+        singular: 'Матч',
+        plural: 'Игры',  // ← В меню будет "Игры"
+      },
   admin: { useAsTitle: 'opponent' },
   fields: [
     { name: 'opponent', type: 'text', required: true, label: 'Соперник' },
@@ -125,29 +141,33 @@ export default buildConfig({
     { name: 'isPublished', type: 'checkbox', defaultValue: true, label: 'Опубликован' },
   ],
 },
-{
-  slug: 'hero-settings',
-  label: 'Настройки Hero',
-  access: {
-    read: () => true, // Публичный доступ
-  },
-  fields: [
-    {
-      name: 'streamUrl',
-      type: 'text',
-      required: true,
-      label: 'Ссылка на трансляцию (iframe src)',
-      defaultValue: 'https://live.vkvideo.ru/app/embed/myp_',
-      admin: {
-        description: 'Вставь ссылку из iframe, например: https://live.vkvideo.ru/app/embed/myp_',
-      },
-    },
-  ],
-},
+// {
+//   slug: 'hero-settings',
+//   label: 'Настройки Hero',
+//   access: {
+//     read: () => true, // Публичный доступ
+//   },
+//   fields: [
+//     {
+//       name: 'streamUrl',
+//       type: 'text',
+//       required: true,
+//       label: 'Ссылка на трансляцию (iframe src)',
+//       defaultValue: 'https://live.vkvideo.ru/app/embed/myp_',
+//       admin: {
+//         description: 'Вставь ссылку из iframe, например: https://live.vkvideo.ru/app/embed/myp_',
+//       },
+//     },
+//   ],
+// },
 
     // 🖼️ Медиа (для загрузки картинок)
     {
       slug: 'media',
+      labels: {
+        singular: 'Файл',
+        plural: 'Медиа',
+      },
       upload: true,
       access: {
     read: () => true,  // ✅ Публичный доступ
@@ -160,7 +180,7 @@ export default buildConfig({
   globals: [
     {
       slug: 'hero-settings',  // ← Должно совпадать с тем, что в коде!
-      label: 'Настройки Hero',
+      label: 'Трансляция',
       access: {
         read: () => true, // Публичный доступ
       },
