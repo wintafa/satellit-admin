@@ -7,6 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./newsCard.module.scss"; // Твои стили
 
+
+
 // 🔹 Типы для TypeScript
 interface NewsItem {
   id: string | number;
@@ -29,8 +31,9 @@ interface NewsListProps {
 }
 
 // 🔹 Твой компонент карточки — без изменений!
-function NewsCard({ title, description, category, date, readTime, imageUrl, slug }: NewsItem) {
-  return (
+function NewsCard({ id, title, description, category, date, readTime, imageUrl, slug }: NewsItem) {
+    const isPriority = Number(id) <= 3;
+    return (
     <Link href={`/news/${slug}`} className={styles.newsCard}>
       <div className={styles.imageWrapper}>
         <Image
@@ -41,7 +44,8 @@ function NewsCard({ title, description, category, date, readTime, imageUrl, slug
           className={styles.newsImage}
           loading="lazy"
           quality={75}  // Баланс качество/размер
-          priority={Number(id) <= 3}  // Первые 3 новости грузим сразу
+          priority={isPriority}
+          loading={isPriority ? 'eager' : 'lazy'}// Первые 3 новости грузим сразу
         />
         <div className={styles.categoryBadge}>{category}</div>
       </div>
