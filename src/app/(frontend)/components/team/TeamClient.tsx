@@ -107,54 +107,54 @@ export default function TeamClient({ initialPlayers }: TeamClientProps) {
 
       {/* Модальное окно */}
       {selectedPlayer && (
-        <div className={styles.modalOverlay} onClick={closeModal}>
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.modalClose} onClick={closeModal}>&times;</button>
-            
-            <div className={styles.modalBody}>
-              {/* 🔹 Modal image с Next.js Image */}
-              <div className={styles.modalImageWrapper}>
-                {selectedPlayer.photoUrl && (
-                  <Image
-                    src={selectedPlayer.photoUrl}
-                    alt={selectedPlayer.name}
-                    fill
-                    sizes="90vw"
-                    className={styles.modalImage}
-                    priority
-                    quality={85}
-                  />
-                )}
-              </div>
-              
-              <div className={styles.modalInfo}>
-                <h3 className={styles.modalName}>{selectedPlayer.name}</h3>
-                <p className={styles.modalRole}>{selectedPlayer.role}</p>
-                <p className={styles.modalNumber}>№ {selectedPlayer.number}</p>
-                
-                <div className={styles.statsGrid}>
-                  <div className={styles.statItem}>
+  <div className={styles.modalOverlay} onClick={closeModal}>
+    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      <button className={styles.modalClose} onClick={closeModal}>&times;</button>
+      
+      <div className={styles.modalBody}>
+        
+        {/* 🔹 Изображение слева — с Next.js Image */}
+        <div className={styles.modalImage}>
+          <Image
+            src={selectedPlayer.photoUrl}
+            alt={selectedPlayer.name}
+            fill // ← Заполняет родительский контейнер
+            className={styles.modalPlayerImg}
+            sizes="(max-width: 768px) 100vw, 50vw" // ← Оптимизация под разные экраны
+            priority // ← Модальное окно — приоритетная загрузка
+          />
+        </div>
+        
+        {/* 🔹 Инфо справа */}
+        <div className={styles.modalInfo}>
+          <h3 className={styles.modalName}>{selectedPlayer.name}</h3>
+          <p className={styles.modalRole}>{selectedPlayer.role}</p>
+          <p className={styles.modalNumber}>№ {selectedPlayer.number}</p>
+          
+          <div className={styles.statsGrid}>
+            <div className={styles.statItem}>
                     <span className={styles.statLabel}>Дата рождения</span>
                     <span className={styles.statValue}>{selectedPlayer.birthDate}</span>
                   </div>
                   <div className={styles.statItem}>
                     <span className={styles.statLabel}>Игры</span>
-                    <span className={styles.statValue}>{selectedPlayer.stats?.games}</span>
+                    <span className={styles.statValue}>{selectedPlayer.games}</span>
                   </div>
                   <div className={styles.statItem}>
                     <span className={styles.statLabel}>Голы</span>
-                    <span className={styles.statValue}>{selectedPlayer.stats?.goals}</span>
+                    <span className={styles.statValue}>{selectedPlayer.goals}</span>
                   </div>
                   <div className={styles.statItem}>
                     <span className={styles.statLabel}>Передачи</span>
-                    <span className={styles.statValue}>{selectedPlayer.stats?.assists}</span>
+                    <span className={styles.statValue}>{selectedPlayer.assists}</span>
                   </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
-      )}
+        
+      </div>
+    </div>
+  </div>
+)}
     </section>
   );
 }
