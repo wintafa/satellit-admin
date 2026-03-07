@@ -34,7 +34,7 @@ export default function Footer() {
           </Link>
           <Link href="https://vk.ru/club230186395" target="_blank" className={styles.socialBtn}>
              <Image src="/icons/vk.svg" alt="VK" width={32} height={32} />
-             <span>Вконтакте</span>
+             <span>VK</span>
           </Link>
         </div>
 

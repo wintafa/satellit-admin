@@ -57,7 +57,7 @@ export default function Header() {
               <Image src="/icons/maxWhite1.svg" alt="MAX" width={32} height={32}/>
               <span>MAX</span>
             </Link>
-            <Link href="https://vk.com/..." target="_blank" className={styles.socialBtn}>
+            <Link href="https://vk.ru/club230186395" target="_blank" className={styles.socialBtn}>
               <Image src="/icons/vk.svg" alt="VK" width={32} height={32} />
               <span>VK</span>
             </Link>

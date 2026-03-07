@@ -98,7 +98,7 @@
     transform: translateY(-8px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 
-    .playerImg {
+    .playerImage {
       transform: scale(1.05);
     }
 
@@ -119,7 +119,7 @@
   position: relative;
 }
 
-.playerImg {
+.playerImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -287,11 +287,11 @@
 .modalImage {
   flex: 1;
   min-height: 400px;
-  position: relative;
+  position: relative;  // ← ✅ Уже есть! Отлично!
   background: #252525;
   
   @media (max-width: 768px) {
-    min-height: 400px; /* ← Меньше на мобильных */
+    min-height: 300px;
   }
 }
 

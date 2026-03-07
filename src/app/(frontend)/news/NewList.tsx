@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 export const fetchCache = 'force-no-store'
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./newsCard.module.scss"; // Твои стили
 
 // 🔹 Типы для TypeScript
@@ -32,11 +33,15 @@ function NewsCard({ title, description, category, date, readTime, imageUrl, slug
   return (
     <Link href={`/news/${slug}`} className={styles.newsCard}>
       <div className={styles.imageWrapper}>
-        <img 
-          src={imageUrl} 
-          alt={title} 
+        <Image
+          src={imageUrl}
+          alt={title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className={styles.newsImage}
           loading="lazy"
+          quality={75}  // Баланс качество/размер
+          priority={Number(id) <= 3}  // Первые 3 новости грузим сразу
         />
         <div className={styles.categoryBadge}>{category}</div>
       </div>
