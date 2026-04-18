@@ -142,7 +142,10 @@ export default buildConfig({
       // 🔹 Заменяем `upload: true` на объект с настройками:
       upload: {
         staticDir: './media',  // Папка для сохранения файлов
-        maxFileSize: 157286400,  // 🔹 150 MB = 150 * 1024 * 1024 байт
+        limits: {
+        fileSize: 2 * 1024 * 1024 * 1024, // 2GB limit
+        }
+
         mimeTypes: ['image/*'],  // Разрешаем только изображения
         // Опционально: генерация превью
         imageSizes: [
