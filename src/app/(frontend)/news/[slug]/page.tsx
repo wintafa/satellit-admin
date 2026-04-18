@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./newsSlug.module.scss";
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+export const revalidate = 3600;
+
 
 // 🔹 Импорт функций из Payload
 import { 
