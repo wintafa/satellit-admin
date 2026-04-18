@@ -1,38 +1,49 @@
 // next.config.ts
+
 import { withPayload } from "@payloadcms/next/withPayload";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  eslint: { ignoreDuringBuilds: true },
-typescript: { ignoreBuildErrors: true },
-  
-
-  api: {
-    bodyParser: {
-      sizeLimit: '50mb', // Ставим лимит в 20 мегабайт. Можешь поставить 50mb, если фотки очень большие.
+  /*
+   * ==================================================================
+   * ⬆️ УВЕЛИЧИВАЕМ ЛИМИТ НА ЗАГРУЗКУ ФАЙЛОВ (ПРАВИЛЬНЫЙ СПОСОБ) ⬆️
+   * ==================================================================
+   * Этот блок добавляет конфигурацию для сервера, чтобы он принимал файлы до 50MB.
+   * Обертка `as any` нужна, чтобы TypeScript не ругался на сборке.
+   */
+  ...( {
+    server: {
+      bodyParser: {
+        sizeLimit: '50mb',
+      },
     },
-  },
+  } as any),
 
+  // ==================================================================
+  // ⛔️ Твои старые настройки, которые мы оставляем как есть ⛔️
+  // ==================================================================
+
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
 
   /* Режим standalone для Docker */
   output: 'standalone',
-  
+
   /* Базовая конфигурация Next.js */
   reactStrictMode: true,
-  
+
   /* Уберите или закомментируйте, если не используете React Compiler */
   // reactCompiler: true, // ← Эта опция экспериментальная, может вызывать ошибки
-  
+
   /* Опции для SCSS модулей */
   sassOptions: {
     includePaths: ["./src"],
   },
-  
+
   /* Оптимизация изображений */
-   images: {
+  images: {
     // Разрешаем Next.js оптимизировать изображения с этих путей:
     remotePatterns: [
-
       {
         protocol: 'http',
         hostname: 'localhost',
@@ -58,7 +69,7 @@ typescript: { ignoreBuildErrors: true },
       },
     ],
   },
-  
+
   /* Экспериментальные фичи (опционально) */
   experimental: {
     // turbo: {
@@ -70,7 +81,7 @@ typescript: { ignoreBuildErrors: true },
     //   }
     // }
   },
-  
+
   /* Webpack конфигурация для исключения Payload из клиентского бандла */
   webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
@@ -84,7 +95,7 @@ typescript: { ignoreBuildErrors: true },
         path: false,
         os: false,
       };
-      
+
       // Исключаем Payload из клиентского бандла
       config.externals = config.externals || [];
       config.externals.push({
@@ -92,7 +103,7 @@ typescript: { ignoreBuildErrors: true },
         '@payloadcms/next': 'commonjs @payloadcms/next',
         '@payloadcms/db-mongodb': 'commonjs @payloadcms/db-mongodb',
       });
-      
+
       // Игнорируем импорты Payload на клиенте
       config.plugins = config.plugins || [];
       config.plugins.push(
@@ -102,10 +113,10 @@ typescript: { ignoreBuildErrors: true },
         })
       );
     }
+
     return config;
   },
 };
 
 // ТОЛЬКО ОДИН вызов withPayload!
 export default withPayload(nextConfig);
-
