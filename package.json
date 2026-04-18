@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:migrate": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts ts-node src/migrate.ts" 
+    
   },
   "dependencies": {
     "@payloadcms/admin-bar": "^3.79.0",
@@ -35,3 +37,6 @@
     "typescript": "^5"
   }
 }
+
+
+
