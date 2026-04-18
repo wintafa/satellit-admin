@@ -40,10 +40,10 @@ function RelatedNewsCard({ post }: { post: any }) {
 }
 
 // 🔹 Генерация статических путей из Payload (вместо JSON)
-export async function generateStaticParams() {
-  const slugs = await getAllNewsSlugs()
-  return slugs
-}
+// export async function generateStaticParams() {
+//   const slugs = await getAllNewsSlugs()
+//   return slugs
+// }
 
 // 🔹 Основная страница — серверный компонент
 export default async function NewsSlugPage({ params }: { params: Promise<{ slug: string }> }) {
