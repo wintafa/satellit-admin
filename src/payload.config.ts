@@ -144,7 +144,7 @@ export default buildConfig({
         staticDir: './media',  // Папка для сохранения файлов
         limits: {
         fileSize: 2 * 1024 * 1024 * 1024, // 2GB limit
-        }
+        },
 
         mimeTypes: ['image/*'],  // Разрешаем только изображения
         // Опционально: генерация превью
