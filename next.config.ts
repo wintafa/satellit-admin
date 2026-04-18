@@ -5,6 +5,14 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   eslint: { ignoreDuringBuilds: true },
 typescript: { ignoreBuildErrors: true },
+  
+
+  api: {
+    bodyParser: {
+      sizeLimit: '50mb', // Ставим лимит в 20 мегабайт. Можешь поставить 50mb, если фотки очень большие.
+    },
+  },
+
 
   /* Режим standalone для Docker */
   output: 'standalone',
