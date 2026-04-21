@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:migrate": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts ts-node src/migrate.ts" 
+    "db:migrate": "PAYLOAD_CONFIG_PATH=src/payload.config.ts ts-node src/migrate.ts" 
     
   },
   "dependencies": {
