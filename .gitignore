@@ -10,9 +10,9 @@ build
 dist
 
 # Payload
-# payload.db
-# payload.db-journal
-# *.db
+payload.db
+payload.db-journal
+*.db
 *.sqlite
 
 # Environment
@@ -45,3 +45,4 @@ coverage
 
 # Misc
 *.log
+*.db

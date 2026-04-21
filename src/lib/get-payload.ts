@@ -1,5 +1,5 @@
 // src/lib/get-payload.ts
-import { parseVkStreamUrl } from '@/lib/utils' // или из того же файла
+import { parseVkStreamUrl } from '@/lib/utils'
 
 // Защита от импорта на клиенте — этот файл должен использоваться только на сервере
 if (typeof window !== 'undefined') {
@@ -148,6 +148,7 @@ export async function getTeamPlayers() {
     where: { isPublished: { equals: true } },
     sort: 'name', // Сортируем по имени
     depth: 1,     // Критично для получения полного объекта с фото
+    limit: 100,   // 🔹 ИСПРАВЛЕНИЕ: увеличиваем лимит (по умолчанию 10)
     revalidate: 0 // 🔹 Кэш запроса на 60 секунд
   })
 
@@ -168,7 +169,7 @@ export async function getTeamPlayers() {
   }))
 }
 
-export async function getGames(limit: number = 20) {
+export async function getGames(limit: number = 50) {
   const payload = await getPayload() // ← Используем наш кэшированный getPayload()
   
   const { docs } = await payload.find({
@@ -268,7 +269,7 @@ export async function getLatestNews(limit: number = 6) {
   })
 }
 
-export async function getAllNews(page: number = 1, limit: number = 8) {  // ← export ОБЯЗАТЕЛЬНО!
+export async function getAllNews(page: number = 1, limit: number = 12) {  // ← export ОБЯЗАТЕЛЬНО!
   const payload = await getPayload()
   
   const result = await payload.find({
@@ -323,6 +324,7 @@ export async function getNewsBySlug(slug: string) {
       isPublished: { equals: true },
     },
     depth: 1,
+    limit: 1,      // 🔹 ОПТИМИЗАЦИЯ: нам нужна только одна новость
     revalidate: 60, // 🔹 Кэш запроса на 60 секунд
   })
   
@@ -413,6 +415,7 @@ export async function getAllNewsSlugs() {
     collection: 'news',
     where: { isPublished: { equals: true } },
     select: { slug: true }, // Запрашиваем только slug для скорости
+    pagination: false, // 🔹 ВАЖНО: отключаем пагинацию, чтобы получить ВСЕ слаги для генерации
     revalidate: 60, // 🔹 Кэш запроса на 60 секунд
   })
   
